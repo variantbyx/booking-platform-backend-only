@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
@@ -32,6 +32,22 @@ export class BookingsService {
 
     if (!service) {
       throw new NotFoundException('Service not found');
+    }
+
+    const existingBooking = await this.bookingRepository.findOne({
+      where: {
+        bookingDate: createBookingDto.bookingDate as any,
+        bookingTime: createBookingDto.bookingTime,
+        service: {
+          id: createBookingDto.serviceId,
+        },
+      },
+    });
+
+    if (existingBooking) {
+      throw new ConflictException(
+        'This service is already booked for the selected date and time.',
+      );
     }
 
     const booking = this.bookingRepository.create({

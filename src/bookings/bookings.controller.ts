@@ -23,13 +23,10 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 export class BookingsController {
   constructor(private readonly bookingsService: BookingsService) {}
 
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth('JWT-auth')
   @Post()
   @ApiOperation({ summary: 'Create a new booking' })
   @ApiResponse({ status: 201, description: 'Booking successfully created' })
   @ApiResponse({ status: 400, description: 'Invalid body inputs' })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 404, description: 'Service not found' })
   create(@Body() createBookingDto: CreateBookingDto) {
     return this.bookingsService.create(createBookingDto);

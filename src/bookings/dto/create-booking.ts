@@ -1,6 +1,7 @@
 import {
   IsDateString,
   IsEmail,
+  IsEnum,
   IsInt,
   IsNotEmpty,
   IsOptional,
@@ -8,6 +9,8 @@ import {
   IsString,
   Matches,
 } from 'class-validator';
+
+import { BookingStatus } from '../entities/booking.entity';
 
 export class CreateBookingDto {
   @IsString()
@@ -29,6 +32,10 @@ export class CreateBookingDto {
   @IsOptional()
   @IsString()
   notes?: string;
+
+  @IsOptional()
+  @IsEnum(BookingStatus)
+  status?: BookingStatus;
 
   @IsInt()
   serviceId!: number;

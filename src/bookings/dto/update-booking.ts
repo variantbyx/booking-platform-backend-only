@@ -1,12 +1,15 @@
 import {
   IsDateString,
   IsEmail,
+  IsEnum,
   IsInt,
   IsOptional,
   IsPhoneNumber,
   IsString,
   Matches,
 } from 'class-validator';
+
+import { BookingStatus } from '../entities/booking.entity';
 
 export class UpdateBookingDto {
   @IsOptional()
@@ -32,6 +35,10 @@ export class UpdateBookingDto {
   @IsOptional()
   @IsString()
   notes?: string;
+
+  @IsOptional()
+  @IsEnum(BookingStatus)
+  status?: BookingStatus;
 
   @IsOptional()
   @IsInt()

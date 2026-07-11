@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
 
-import { Booking } from './entities/booking.entity';
+import { Booking, BookingStatus } from './entities/booking.entity';
 import { Service } from '../services/entities/service.entity';
 
 import { CreateBookingDto } from './dto/create-booking';
@@ -79,6 +79,15 @@ export class BookingsService {
 
   async update(id: number, updateBookingDto: UpdateBookingDto) {
     const booking = await this.findOne(id);
+
+    if (
+      updateBookingDto.status === BookingStatus.COMPLETED &&
+      booking.status === BookingStatus.CANCELLED
+    ) {
+      throw new BadRequestException(
+        'Cancelled bookings cannot be marked as completed',
+      );
+    }
 
     if (updateBookingDto.serviceId !== undefined) {
       const service = await this.serviceRepository.findOne({

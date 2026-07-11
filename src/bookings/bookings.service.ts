@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
@@ -19,6 +19,13 @@ export class BookingsService {
   ) {}
 
   async create(createBookingDto: CreateBookingDto) {
+    const todayStr = new Date().toISOString().split('T')[0];
+    const bookingDateStr = createBookingDto.bookingDate.split('T')[0];
+
+    if (bookingDateStr < todayStr) {
+      throw new BadRequestException('Booking date cannot be in the past');
+    }
+
     const service = await this.serviceRepository.findOne({
       where: { id: createBookingDto.serviceId },
     });

@@ -19,10 +19,10 @@ export class Service {
   @Column('text')
   description!: string;
 
-  @Column()
-  duration!: string;
+  @Column('int')
+  duration!: number;
 
-  @Column('decimal')
+  @Column('float')
   price!: number;
 
   @Column({

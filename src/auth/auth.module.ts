@@ -22,7 +22,7 @@ import { JwtAuthGuard } from './jwt-auth.guard';
       useFactory: (configService: ConfigService) => ({
         secret: configService.getOrThrow<string>('JWT_SECRET'),
         signOptions: {
-          expiresIn: '1d',
+          expiresIn: (configService.get<string>('JWT_EXPIRES_IN') || '1d') as any,
         },
       }),
     }),

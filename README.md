@@ -1,99 +1,143 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Booking Platform Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A clean, production-grade service booking and scheduling backend API built using **NestJS**, **TypeORM**, and **PostgreSQL**. The platform features complete user authentication (JWT), services catalog management, booking requests with robust relationship validation, global exception filters, and automated interactive API documentation (Swagger).
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 🛠️ Tech Stack
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+* **Framework:** [NestJS](https://nestjs.com/) (v11.x)
+* **Language:** TypeScript
+* **Database & ORM:** PostgreSQL + [TypeORM](https://typeorm.io/)
+* **Authentication:** Passport JWT
+* **Validation:** Class-validator & Class-transformer
+* **Documentation:** Swagger (OpenAPI)
 
-## Project setup
+---
 
-```bash
-$ npm install
+## 📂 Folder Structure
+
+```text
+src/
+├── app.module.ts            # Root application module
+├── main.ts                  # Bootstrapping, validation pipe, exception filter & Swagger
+├── auth/                    # JWT authentication module, guards, and passport strategy
+│   ├── dto/                 # Auth DTOs (Register, Login)
+│   ├── jwt.strategy.ts      # Passport JWT strategy configuration
+│   └── jwt-auth.guard.ts    # Route guard for endpoints requiring login
+├── bookings/                # Booking module (CRUD endpoints, validation, and schema)
+│   ├── dto/                 # Booking DTOs (Create, Update)
+│   ├── entities/            # TypeORM Booking entity & BookingStatus Enum
+│   ├── bookings.controller.ts
+│   └── bookings.service.ts
+├── services/                # Services Catalog module (CRUD endpoints)
+│   ├── dto/                 # Services DTOs
+│   ├── entities/            # TypeORM Service entity
+│   ├── services.controller.ts
+│   └── services.service.ts
+├── users/                   # User account management module
+│   ├── entities/            # User entity
+│   └── users.service.ts
+└── common/
+    └── filters/
+        └── http-exception.filter.ts # Global HttpException JSON formatter
 ```
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ npm run start
+## 🔒 Environment Variables
 
-# watch mode
-$ npm run start:dev
+Create a `.env` file in the root directory of the project and define the following variables:
 
-# production mode
-$ npm run start:prod
+```env
+# Database connection settings
+DB_HOST=localhost
+DB_PORT=5433
+DB_USERNAME=postgres
+DB_PASSWORD=admin123
+DB_NAME=booking_platform
+
+# Authentication settings
+JWT_SECRET=superSecretKey123456789
+JWT_EXPIRES_IN=1d
+
+# Application Port
+PORT=3000
 ```
 
-## Run tests
+---
 
+## 🚀 Getting Started
+
+### 1. Installation
+Clone the repository and install the dependencies:
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm install
 ```
 
-## Deployment
+### 2. Run Database
+Ensure you have a PostgreSQL database instance running matching the variables configured in your `.env` file.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
+### 3. Start Development Server
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm run start:dev
+```
+The server will boot on `http://localhost:3000`.
+
+---
+
+## 📘 Interactive API Documentation (Swagger)
+
+Once the application is running, you can access the beautiful interactive Swagger documentation at:
+👉 **[http://localhost:3000/api](http://localhost:3000/api)**
+
+Through Swagger, you can inspect:
+- Full schemas of all entities and inputs.
+- Authentication paths.
+- Create, Read, Update, and Delete endpoints for both **Services** and **Bookings**.
+- Built-in Bearer Authorization testing directly from your browser.
+
+---
+
+## 🧪 Postman Collection
+
+A pre-configured Postman Collection is included in the project root:
+* File: `booking-platform.postman_collection.json`
+* How to use:
+  1. Open Postman.
+  2. Click **Import** and select `booking-platform.postman_collection.json`.
+  3. The collection imports with all folders (Auth, Services, Bookings) and requests pre-filled with raw JSON payloads and authentication headers.
+  4. Once you log in, the `access_token` is automatically saved in collection variables and passed to all protected endpoints.
+
+---
+
+## 🧼 Global Exception & Validation Response
+
+Instead of receiving inconsistent Nested NestJS validation formats, errors are formatted globally into clear, consistent API payloads. 
+
+### Successful Error Formatting Example:
+```json
+{
+  "success": false,
+  "statusCode": 400,
+  "message": "Validation failed",
+  "errors": [
+    "customerPhone must be a valid phone number",
+    "status must be one of the following values: Pending, Confirmed, Cancelled, Completed"
+  ],
+  "path": "/bookings",
+  "timestamp": "2026-07-11T13:51:52.000Z"
+}
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## 🧪 Running Unit Tests
+You can execute unit tests using Jest:
+```bash
+# Run all unit tests
+npm run test
 
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
-"# booking-platform-backend-only" 
+# Run bookings-specific tests only
+npx jest src/bookings
+```

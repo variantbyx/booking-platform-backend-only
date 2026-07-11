@@ -7,8 +7,6 @@ import { AuthService } from './auth.service';
 
 import { UsersModule } from '../users/users.module';
 
-import type { StringValue } from 'ms';
-
 @Module({
   imports: [
     UsersModule,

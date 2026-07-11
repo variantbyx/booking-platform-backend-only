@@ -4,15 +4,11 @@ import { Repository } from 'typeorm';
 
 import { User } from './entities/user.entity';
 
-import { JwtService } from '@nestjs/jwt';
-
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
-    private readonly usersService: UsersService,
-    private readonly jwtService: JwtService,
   ) {}
 
   findAll() {

@@ -3,7 +3,10 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm';
+
+import { Booking } from 'src/bookings/entities/booking.entity';
 
 @Entity()
 export class Service {
@@ -29,4 +32,7 @@ export class Service {
 
   @CreateDateColumn()
   createdAt!: Date;
+
+  @OneToMany(() => Booking, (booking) => booking.service)
+  bookings!: Booking[];
 }
